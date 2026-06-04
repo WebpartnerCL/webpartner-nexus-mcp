@@ -15,6 +15,7 @@ import { brainTools } from "./tools/qualify.js";
 import { messagingTools } from "./tools/messaging.js";
 import { schedulingTools } from "./tools/scheduling.js";
 import { reviewTools } from "./tools/reviews.js";
+import { landingTools } from "./tools/landing.js";
 
 export const ALL_TOOLS: ToolDef[] = [
   ...leadTools,
@@ -22,6 +23,7 @@ export const ALL_TOOLS: ToolDef[] = [
   ...messagingTools,
   ...schedulingTools,
   ...reviewTools,
+  ...landingTools,
 ];
 
 const TOOL_BY_NAME = new Map<string, ToolDef>(ALL_TOOLS.map((t) => [t.name, t]));

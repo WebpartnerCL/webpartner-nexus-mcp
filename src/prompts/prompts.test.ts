@@ -13,6 +13,7 @@ const cliente: Cliente = {
   wa_phone_number_id: null,
   tono: "cercano y profesional",
   politicas_faq: { servicios: ["lavado básico", "encerado premium"] },
+  sitio_contenido: {},
   plan: "pro",
   activo: true,
   created_at: "",

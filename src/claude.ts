@@ -19,6 +19,7 @@ export interface BrainInput {
   history: ChatMessage[]; // turnos previos (memoria)
   mensaje: string; // mensaje entrante del lead (turno actual)
   model?: string; // override puntual; default = cfg.claudeModel
+  maxTokens?: number; // default 1024; subir para generación de contenido (ej. landing JSON)
 }
 
 /** Llama al modelo y devuelve el texto del/los bloque(s) de respuesta. */
@@ -35,7 +36,7 @@ export async function callBrain(input: BrainInput): Promise<string> {
 
   const res = await anthropic().messages.create({
     model: input.model ?? cfg.claudeModel,
-    max_tokens: 1024,
+    max_tokens: input.maxTokens ?? 1024,
     system: [
       {
         type: "text",

@@ -71,6 +71,7 @@ export type Database = {
           nombre_negocio: string
           plan: string
           politicas_faq: Json
+          sitio_contenido: Json
           rubro: string | null
           slug: string
           tono: string
@@ -86,6 +87,7 @@ export type Database = {
           nombre_negocio: string
           plan?: string
           politicas_faq?: Json
+          sitio_contenido?: Json
           rubro?: string | null
           slug: string
           tono?: string
@@ -101,6 +103,7 @@ export type Database = {
           nombre_negocio?: string
           plan?: string
           politicas_faq?: Json
+          sitio_contenido?: Json
           rubro?: string | null
           slug?: string
           tono?: string

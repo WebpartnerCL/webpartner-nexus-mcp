@@ -65,6 +65,7 @@ export const TOOL_NAMES = [
   "generate_review_link",
   "route_review",
   "log_review",
+  "generate_landing",
 ] as const;
 export type ToolName = (typeof TOOL_NAMES)[number];
 
