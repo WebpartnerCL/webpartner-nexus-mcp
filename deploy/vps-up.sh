@@ -9,6 +9,10 @@ set -euo pipefail
 
 REPO=/opt/webpartner-nexus-mcp
 NET=root_default   # red donde corre n8n (n8n lo llamará como http://nexus-mcp:3000)
+# Host público para TLS vía Traefik (el front Vercel llama al MCP por aquí).
+# certresolver=mytlschallenge (TLS-ALPN en :443) = el mismo que usa n8n en este VPS.
+MCP_HOST=${MCP_HOST:-mcp.webpartners.cl}
+CERTRESOLVER=${CERTRESOLVER:-mytlschallenge}
 
 echo ">> Sincronizando repo..."
 if [ -d "$REPO/.git" ]; then
@@ -44,8 +48,15 @@ echo ">> Build de la imagen (puede tardar 1-2 min)..."
 docker rm -f nexus-mcp >/dev/null 2>&1 || true
 docker build -t nexus-mcp "$REPO"
 
-echo ">> Levantando contenedor en la red '$NET'..."
-docker run -d --name nexus-mcp --restart unless-stopped --network "$NET" --env-file "$REPO/.env" nexus-mcp >/dev/null
+echo ">> Levantando contenedor en la red '$NET' (con labels Traefik → $MCP_HOST)..."
+docker run -d --name nexus-mcp --restart unless-stopped --network "$NET" --env-file "$REPO/.env" \
+  -l 'traefik.enable=true' \
+  -l "traefik.http.routers.nexusmcp.rule=Host(\`$MCP_HOST\`)" \
+  -l 'traefik.http.routers.nexusmcp.entrypoints=websecure' \
+  -l 'traefik.http.routers.nexusmcp.tls=true' \
+  -l "traefik.http.routers.nexusmcp.tls.certresolver=$CERTRESOLVER" \
+  -l 'traefik.http.services.nexusmcp.loadbalancer.server.port=3000' \
+  nexus-mcp >/dev/null
 sleep 4
 
 echo ""
