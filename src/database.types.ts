@@ -65,6 +65,7 @@ export type Database = {
         Row: {
           activo: boolean
           cal_url: string | null
+          cerebro: string
           created_at: string
           google_review_url: string | null
           id: string
@@ -77,10 +78,12 @@ export type Database = {
           tono: string
           updated_at: string
           wa_phone_number_id: string | null
+          wa_template_resena: string | null
         }
         Insert: {
           activo?: boolean
           cal_url?: string | null
+          cerebro?: string
           created_at?: string
           google_review_url?: string | null
           id?: string
@@ -93,10 +96,12 @@ export type Database = {
           tono?: string
           updated_at?: string
           wa_phone_number_id?: string | null
+          wa_template_resena?: string | null
         }
         Update: {
           activo?: boolean
           cal_url?: string | null
+          cerebro?: string
           created_at?: string
           google_review_url?: string | null
           id?: string
@@ -109,6 +114,7 @@ export type Database = {
           tono?: string
           updated_at?: string
           wa_phone_number_id?: string | null
+          wa_template_resena?: string | null
         }
         Relationships: []
       }

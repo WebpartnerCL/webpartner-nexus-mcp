@@ -11,6 +11,8 @@ const cliente: Cliente = {
   google_review_url: null,
   cal_url: "https://cal.com/x/15min",
   wa_phone_number_id: null,
+  wa_template_resena: null,
+  cerebro: "gemini",
   tono: "cercano y profesional",
   politicas_faq: { servicios: ["lavado básico", "encerado premium"] },
   sitio_contenido: {},

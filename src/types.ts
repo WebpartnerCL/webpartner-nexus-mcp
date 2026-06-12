@@ -66,6 +66,9 @@ export const TOOL_NAMES = [
   "route_review",
   "log_review",
   "generate_landing",
+  // Onboarding pipeline (solo service key)
+  "provision_client",
+  "verify_client_setup",
 ] as const;
 export type ToolName = (typeof TOOL_NAMES)[number];
 
