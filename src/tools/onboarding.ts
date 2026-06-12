@@ -80,10 +80,11 @@ const provisionClientTool: ToolDef = {
       throw new Error(`cerebro inválido: ${cerebro}. Opciones: ${CEREBROS.join(", ")}`);
     }
 
-    const sitio_contenido =
+    const base =
       args.sitio_contenido && typeof args.sitio_contenido === "object" && !Array.isArray(args.sitio_contenido)
-        ? { ...args.sitio_contenido as Record<string, unknown>, telefono_display }
-        : { telefono_display };
+        ? (args.sitio_contenido as Record<string, unknown>)
+        : {};
+    const sitio_contenido = telefono_display ? { ...base, telefono_display } : base;
 
     const politicas_faq =
       args.politicas_faq && typeof args.politicas_faq === "object" && !Array.isArray(args.politicas_faq)
@@ -168,7 +169,10 @@ const verifyClientSetupTool: ToolDef = {
 
     const sc = cliente?.sitio_contenido;
     const sitioContenidoOk =
-      !!sc && typeof sc === "object" && !Array.isArray(sc) && Object.keys(sc).length > 0;
+      !!sc &&
+      typeof sc === "object" &&
+      !Array.isArray(sc) &&
+      Object.entries(sc).some(([k, v]) => k !== "telefono_display" && v !== null);
 
     const waId = cliente?.wa_phone_number_id ?? "";
     const waNumberIdReal =
