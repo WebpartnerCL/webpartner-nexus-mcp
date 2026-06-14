@@ -55,6 +55,9 @@ export interface ChatMessage {
 // registran en usage_events para analítica/metering.
 export const TOOL_NAMES = [
   "qualify_lead",
+  "draft_quote",
+  "draft_proposal",
+  "close_proposal",
   "upsert_lead",
   "get_lead",
   "update_funnel_stage",

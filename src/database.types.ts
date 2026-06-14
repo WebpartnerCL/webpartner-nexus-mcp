@@ -232,6 +232,77 @@ export type Database = {
           },
         ]
       }
+      propuestas: {
+        Row: {
+          alcance: string | null
+          cliente_id: string
+          created_at: string
+          estado: string
+          fecha_cierre: string | null
+          fecha_envio: string | null
+          horas_estimadas: number | null
+          horas_reales: number | null
+          id: string
+          lead_id: string | null
+          moneda: string
+          motivo_cierre: string | null
+          notas: string | null
+          peldano: string | null
+          precio_cerrado: number | null
+          precio_cotizado: number | null
+          proyecto: string
+          updated_at: string
+        }
+        Insert: {
+          alcance?: string | null
+          cliente_id: string
+          created_at?: string
+          estado?: string
+          fecha_cierre?: string | null
+          fecha_envio?: string | null
+          horas_estimadas?: number | null
+          horas_reales?: number | null
+          id?: string
+          lead_id?: string | null
+          moneda?: string
+          motivo_cierre?: string | null
+          notas?: string | null
+          peldano?: string | null
+          precio_cerrado?: number | null
+          precio_cotizado?: number | null
+          proyecto: string
+          updated_at?: string
+        }
+        Update: {
+          alcance?: string | null
+          cliente_id?: string
+          created_at?: string
+          estado?: string
+          fecha_cierre?: string | null
+          fecha_envio?: string | null
+          horas_estimadas?: number | null
+          horas_reales?: number | null
+          id?: string
+          lead_id?: string | null
+          moneda?: string
+          motivo_cierre?: string | null
+          notas?: string | null
+          peldano?: string | null
+          precio_cerrado?: number | null
+          precio_cotizado?: number | null
+          proyecto?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "propuestas_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: false
+            referencedRelation: "clientes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       quotas: {
         Row: {
           limite_mensual: number

@@ -12,6 +12,8 @@ import type { Plan, Cliente } from "./types.js";
 import type { ToolDef, ToolArgs } from "./tools/types.js";
 import { leadTools } from "./tools/leads.js";
 import { brainTools } from "./tools/qualify.js";
+import { quoteTools } from "./tools/quote.js";
+import { proposalTools } from "./tools/proposal.js";
 import { messagingTools } from "./tools/messaging.js";
 import { schedulingTools } from "./tools/scheduling.js";
 import { reviewTools } from "./tools/reviews.js";
@@ -21,6 +23,8 @@ import { onboardingTools } from "./tools/onboarding.js";
 export const ALL_TOOLS: ToolDef[] = [
   ...leadTools,
   ...brainTools,
+  ...quoteTools,
+  ...proposalTools,
   ...messagingTools,
   ...schedulingTools,
   ...reviewTools,
