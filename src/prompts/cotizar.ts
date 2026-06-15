@@ -14,6 +14,7 @@ export interface DiscoveryContext {
   presupuesto?: string; // banda declarada
   autoridad?: string;
   roi?: { rol?: string; valor_hora?: number; horas_semana?: number; costo_anual?: number };
+  integraciones?: string[]; // sistemas externos que el prospecto declara usar (única fuente de addons)
   texto_libre?: string;
 }
 
@@ -42,6 +43,7 @@ function discoveryToText(d: DiscoveryContext): string {
   if (d.presupuesto) lines.push(`- Presupuesto declarado: ${d.presupuesto}`);
   if (d.autoridad) lines.push(`- Autoridad de decisión: ${d.autoridad}`);
   if (d.roi?.costo_anual) lines.push(`- Costo anual del proceso manual (ancla ROI): ~$${d.roi.costo_anual.toLocaleString("es-CL")}`);
+  if (d.integraciones?.length) lines.push(`- Sistemas que usa hoy (declarados): ${d.integraciones.join(", ")}`);
   if (d.texto_libre) lines.push(`- Contexto adicional: ${d.texto_libre}`);
   return lines.length ? lines.join("\n") : "(discovery sin datos estructurados)";
 }
@@ -74,8 +76,13 @@ ${discoveryToText(d)}
 HORAS DE REFERENCIA (histórico real de proyectos WebPartner — ancla tu estimación a la banda del peldaño elegido):
 ${priorsToText(priors)}
 
-ADDONS válidos (claves; sugiere SOLO si el dolor lo amerita, p.ej. integrar SII/ERP/pagos):
-${ADDON_CLAVES.join(", ")}
+ADDONS (catálogo de claves): ${ADDON_CLAVES.join(", ")}
+REGLA DE ADDONS — estricta (la oferta del peldaño es completa por sí sola; NO la infles):
+- Por defecto **addons_sugeridos = []** (vacío). NUNCA ofrezcas addons por el dolor genérico, la madurez ni el presupuesto.
+- SOLO sugiere un addon si el prospecto NOMBRÓ EXPLÍCITAMENTE ese sistema en "Sistemas que usa hoy" y hay clave para conectarlo
+  (ej.: "Defontana/Softland" → mcp_erp · "SII"/"facturo" → mcp_sii · "Transbank" → mcp_transbank · "Buk" → mcp_payroll).
+- Si incluir un addon nombrado haría superar su banda de presupuesto declarada → NO lo incluyas: déjalo en "supuestos"
+  como "Fase 2: conectar <sistema> más adelante". El primer sí va liviano; el upsell real es la escalera, no los addons.
 
 REGLAS:
 1. PROHIBIDO mencionar montos/precios. Solo peldaño + alcance + horas + supuestos. El precio lo pone el motor.

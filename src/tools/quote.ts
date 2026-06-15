@@ -47,6 +47,9 @@ function discoveryFromHistorial(historial: unknown, necesidadLead?: string | nul
       horas_semana: typeof roi.horas_semana === "number" ? roi.horas_semana : undefined,
       costo_anual: typeof roi.costo_anual === "number" ? roi.costo_anual : undefined,
     },
+    integraciones: Array.isArray(entry.integraciones)
+      ? (entry.integraciones as unknown[]).filter((x): x is string => typeof x === "string")
+      : undefined,
     texto_libre: typeof entry.clarify === "string" ? entry.clarify : undefined,
   };
 }
@@ -68,6 +71,9 @@ function discoveryFromArgs(raw: unknown): DiscoveryContext {
       horas_semana: typeof roi.horas_semana === "number" ? roi.horas_semana : undefined,
       costo_anual: typeof roi.costo_anual === "number" ? roi.costo_anual : undefined,
     },
+    integraciones: Array.isArray(d.integraciones)
+      ? (d.integraciones as unknown[]).filter((x): x is string => typeof x === "string")
+      : undefined,
     texto_libre: asString(d.texto_libre),
   };
 }
