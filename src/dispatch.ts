@@ -14,6 +14,7 @@ import { leadTools } from "./tools/leads.js";
 import { brainTools } from "./tools/qualify.js";
 import { quoteTools } from "./tools/quote.js";
 import { proposalTools } from "./tools/proposal.js";
+import { followupTools } from "./tools/followup.js";
 import { messagingTools } from "./tools/messaging.js";
 import { schedulingTools } from "./tools/scheduling.js";
 import { reviewTools } from "./tools/reviews.js";
@@ -25,6 +26,7 @@ export const ALL_TOOLS: ToolDef[] = [
   ...brainTools,
   ...quoteTools,
   ...proposalTools,
+  ...followupTools,
   ...messagingTools,
   ...schedulingTools,
   ...reviewTools,
