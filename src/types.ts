@@ -58,6 +58,7 @@ export const TOOL_NAMES = [
   "draft_quote",
   "draft_proposal",
   "close_proposal",
+  "log_proposal",
   "upsert_lead",
   "get_lead",
   "update_funnel_stage",

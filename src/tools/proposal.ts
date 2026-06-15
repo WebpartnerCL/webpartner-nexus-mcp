@@ -13,6 +13,7 @@ import type { Database } from "../database.types.js";
 import { asString } from "./shared.js";
 
 type PropuestaUpdate = Database["public"]["Tables"]["propuestas"]["Update"];
+type PropuestaInsert = Database["public"]["Tables"]["propuestas"]["Insert"];
 
 type Ficha = Pick<
   PropuestaInput,
@@ -179,4 +180,63 @@ const closeProposalTool: ToolDef = {
   },
 };
 
-export const proposalTools: ToolDef[] = [draftProposalTool, closeProposalTool];
+// ── log_proposal: registra una propuesta enviada (Cliente Cero 3.2) ───────────
+// Crea la fila en `propuestas` (estado 'enviada' por defecto). Devuelve el id para
+// que luego `close_proposal` la cierre. Es el otro extremo del ciclo de la matriz.
+const logProposalTool: ToolDef = {
+  name: "log_proposal",
+  description:
+    "Registra una propuesta en la matriz `propuestas` (por defecto estado 'enviada' con fecha_envio=hoy). Devuelve su id para cerrarla luego con close_proposal. Es el inicio del ciclo de aprendizaje de la cotización.",
+  inputSchema: {
+    type: "object",
+    properties: {
+      cliente_id: { type: "string", description: "Tenant. Requerido con llave de servicio." },
+      proyecto: { type: "string", description: "Nombre del proyecto/propuesta (ej. 'El Secano — N1 Captación')." },
+      lead_id: { type: "string", description: "Lead vinculado (uuid) — opcional pero recomendado." },
+      peldano: { type: "string", description: "N0–N4." },
+      alcance: { type: "string", description: "Resumen del alcance (texto)." },
+      horas_estimadas: { type: "number" },
+      precio_cotizado: { type: "number" },
+      moneda: { type: "string", description: "CLP|USD (default CLP)." },
+      estado: { type: "string", description: "borrador|enviada|ganada|perdida (default enviada)." },
+      notas: { type: "string" },
+    },
+    required: ["proyecto"],
+  },
+  resolveCliente: (args, ctx) => resolveClienteId(ctx.auth, asString(args.cliente_id)),
+  handler: async (args: ToolArgs, ctx) => {
+    const cliente = ctx.cliente;
+    if (!cliente) throw new Error("log_proposal: cliente no resuelto");
+    const proyecto = asString(args.proyecto);
+    if (!proyecto) throw new Error("log_proposal: falta 'proyecto'");
+    const estado = asString(args.estado) ?? "enviada";
+
+    const row: PropuestaInsert = {
+      cliente_id: cliente.id,
+      proyecto,
+      estado,
+      moneda: asString(args.moneda) ?? "CLP",
+    };
+    const leadId = asString(args.lead_id);
+    if (leadId) row.lead_id = leadId;
+    const peldano = asString(args.peldano);
+    if (peldano) row.peldano = peldano;
+    const alcance = asString(args.alcance);
+    if (alcance) row.alcance = alcance;
+    if (typeof args.horas_estimadas === "number") row.horas_estimadas = args.horas_estimadas;
+    if (typeof args.precio_cotizado === "number") row.precio_cotizado = args.precio_cotizado;
+    const notas = asString(args.notas);
+    if (notas) row.notas = notas;
+    if (estado === "enviada") row.fecha_envio = new Date().toISOString();
+
+    const { data, error } = await ctx.db
+      .from("propuestas")
+      .insert(row)
+      .select("id, proyecto, peldano, estado, fecha_envio")
+      .single();
+    if (error) throw new Error(`log_proposal: ${error.message}`);
+    return { ok: true, propuesta: data };
+  },
+};
+
+export const proposalTools: ToolDef[] = [draftProposalTool, closeProposalTool, logProposalTool];
