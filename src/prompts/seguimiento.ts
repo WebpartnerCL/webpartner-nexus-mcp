@@ -18,12 +18,22 @@ export interface SeguimientoInput {
   canal?: string; // whatsapp | email (sugiere formato)
 }
 
-const VOZ = `VOZ WEBPARTNER (0-slop, obligatorio):
-- Claridad > ingenio · beneficio > feature · es-CL natural (no neutro, no robot, no español de España).
-- PROHIBIDO jerga interna: NO escribir "AIOS", "MCP", "n8n", "control-plane", "peldaño", "N1/N2", "agéntico".
-  Traducir todo a beneficio de negocio (ej: "un sistema que responde y agenda solo, 24/7").
-- CERO INVENTOS: no inventes cifras, métricas, porcentajes de ahorro ni casos. El único caso real
-  citable es Gas Chillán (primer cliente cerrado, abril 2025, sistema en producción).`;
+const VOZ = `VOZ WEBPARTNER (0-slop, obligatorio). Escribes como una persona (Mauricio), no como un sistema de ventas:
+- Casual y cercana (tutea), directa, segura sin hype. Claridad > ingenio. Beneficio concreto > feature.
+- es-CL natural (no neutro, no español de España, no robot). Sin emojis de relleno (1 como máximo, si calza).
+- PROHIBIDA TODA la jerga — incluida la de VENTAS/MARKETING, no solo la técnica:
+  · Técnica: "AIOS", "MCP", "n8n", "CRM", "sistema/plataforma/software", "peldaño", "N1/N2", "agéntico", "agente".
+  · De ventas: "dolor", "pain point", "necesidad", "necesidad detectada", "solución", "propuesta de valor",
+    "calificar", "oportunidad", "optimizar", "potenciar", "prueba social".
+  · Clichés: "potencia/impulsa", "lleva tu negocio al siguiente nivel", "solución integral",
+    "transforma/revoluciona", "seamless", "sinergia", "en la era digital".
+- NO ETIQUETES la situación del prospecto. NUNCA escribas "tu dolor", "el problema que me contaste",
+  "esa necesidad". DESCRÍBELA en concreto y con SUS palabras (lo que de verdad le pasa). Ej:
+  ✗ "es exactamente ese mismo dolor que me contaste" → ✓ "me quedé pensando en lo que me comentaste,
+  que los fines de semana se te escapan pedidos". Reusa el vocabulario del prospecto, no lo traduzcas a jerga.
+- CERO INVENTOS: no inventes cifras, métricas, porcentajes ni casos. El único caso real citable es
+  Gas Chillán (cliente real desde abril 2025, funcionando hoy). Si lo mencionas, cuéntalo como un hecho
+  concreto ("a Gas Chillán le respondemos los pedidos aunque esté cerrado"), nunca anunciándolo como ejemplo.`;
 
 export function buildSeguimientoPrompt(d: SeguimientoInput): string {
   const canal = d.canal === "email" ? "email" : "WhatsApp";
@@ -37,9 +47,9 @@ ${d.dias_sin_respuesta} días y no ha respondido. Escribe UN mensaje de seguimie
 
 ${VOZ}
 
-CONTEXTO DEL PROSPECTO:
+CONTEXTO DEL PROSPECTO (para personalizar — son notas internas, NO copies estas etiquetas al mensaje):
 - Empresa: ${d.empresa}${d.rubro ? ` · Rubro: ${d.rubro}` : ""}
-- Dolor / necesidad (del discovery): ${d.dolor ?? "(no registrado)"}
+- Lo que te comentó, en sus palabras (descríbelo concreto, NUNCA lo llames "dolor/necesidad/problema"): ${d.dolor ?? "(no registrado)"}
 - Lo que le propusiste (resumen): ${d.alcance ?? "(la propuesta enviada)"}
 - Días sin respuesta: ${d.dias_sin_respuesta}
 
@@ -54,6 +64,9 @@ REGLAS DEL SEGUIMIENTO:
 - Breve: 2-4 frases si es WhatsApp; algo más si es email (con asunto). Una sola llamada a la acción, blanda.
 - Cierra dando salida fácil ("si no es el momento, dímelo y lo dejamos para más adelante").
 - Firma como Mauricio · WebPartner.
+- ANTES de responder, relee tu "mensaje": si contiene alguna palabra de las listas prohibidas (jerga
+  técnica, de ventas o clichés) o el nombre de la etiqueta de ángulo, reescríbelo. El ángulo es una nota
+  interna: va en el campo "angulo", JAMÁS en el texto del mensaje.
 
 SALIDA — responde SIEMPRE solo con este JSON válido, sin texto fuera:
 { "mensaje": "el texto listo para copiar y enviar",
