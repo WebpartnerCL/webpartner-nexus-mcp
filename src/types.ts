@@ -65,6 +65,7 @@ export const TOOL_NAMES = [
   "append_chat_memory",
   "classify_semaphore",
   "schedule_appointment",
+  "set_booking_show",
   "send_whatsapp",
   "generate_review_link",
   "route_review",

@@ -7,7 +7,8 @@ test("ficha N1: strings es-CL y peldaño nombrado", () => {
   const f = fichaFromPrecio(priceForQuote({ peldano: "N1" }));
   assert.equal(f.peldano_nombre, "N1 Nexus Captación");
   assert.equal(f.setup_texto, "CLP $500.000–900.000");
-  assert.match(f.recurrente_texto, /retainer\/mes/);
+  assert.match(f.recurrente_texto, /base\/mes/);
+  assert.match(f.recurrente_texto, /por agendado que asistió/); // incluye el fee de performance
   assert.equal(f.addons_texto, "ninguno");
   assert.equal(f.descuento_texto, "ninguno");
 });

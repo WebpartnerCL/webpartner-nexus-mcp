@@ -22,7 +22,8 @@ interface LadderRung {
   nombre: string;
   monedaSetup: Moneda;
   setup: Banda; // min=max para precios fijos (N0)
-  recurrente: Recurrente;
+  recurrente: Recurrente; // BASE recurrente (piso)
+  feeAgendado?: { monto: number; moneda: Moneda }; // fee por agendado-que-asistió (performance, N1+)
   cotizable: boolean;
   motivoNoCotizable?: string;
 }
@@ -40,7 +41,8 @@ export const LADDER: Record<Peldano, LadderRung> = {
     nombre: "Nexus Captación",
     monedaSetup: "CLP",
     setup: { min: 500_000, max: 900_000 },
-    recurrente: { min: 100_000, max: 150_000, label: "retainer/mes", moneda: "CLP" },
+    recurrente: { min: 90_000, max: 90_000, label: "base/mes", moneda: "CLP" },
+    feeAgendado: { monto: 12_000, moneda: "CLP" },
     cotizable: true,
   },
   N2: {
@@ -48,6 +50,7 @@ export const LADDER: Record<Peldano, LadderRung> = {
     monedaSetup: "CLP",
     setup: { min: 1_500_000, max: 2_500_000 },
     recurrente: { min: 497, max: 497, label: "Membresía AIOS/mes", moneda: "USD" },
+    feeAgendado: { monto: 15_000, moneda: "CLP" },
     cotizable: true,
   },
   N3: {
@@ -55,6 +58,7 @@ export const LADDER: Record<Peldano, LadderRung> = {
     monedaSetup: "CLP",
     setup: { min: 2_500_000, max: 4_000_000 },
     recurrente: { min: 497, max: 497, label: "Membresía AIOS/mes", moneda: "USD" },
+    feeAgendado: { monto: 20_000, moneda: "CLP" },
     cotizable: false,
     motivoNoCotizable:
       "N3 no se cotiza sin contrato ERP del socio firmado (gate §11.5: eventos, auth+sandbox, idempotencia, SLA). Escalar a Mauricio.",
@@ -64,6 +68,7 @@ export const LADDER: Record<Peldano, LadderRung> = {
     monedaSetup: "CLP",
     setup: { min: 3_000_000, max: 6_000_000 },
     recurrente: { min: 497, max: 497, label: "Membresía AIOS/mes", moneda: "USD" },
+    feeAgendado: { monto: 25_000, moneda: "CLP" },
     cotizable: true,
   },
 };
@@ -117,7 +122,8 @@ export interface PriceBlock {
   nombre: string;
   moneda_base: Moneda;
   setup: Banda;
-  recurrente: Recurrente;
+  recurrente: Recurrente; // base recurrente
+  fee_agendado: { monto: number; moneda: Moneda; label: string } | null; // performance (N1+)
   addons: Addon[];
   addons_total: Banda | null; // CLP
   descuento: DescuentoAplicado | null;
@@ -160,6 +166,9 @@ export function priceForQuote(input: PriceInput): PriceBlock {
   const addonsTotal = addons.length ? sumBandas(addons) : null;
 
   const banda_referencia = `${input.peldano} ${rung.nombre} — escalera oficial pricing-aios (${REVISION})`;
+  const fee_agendado = rung.feeAgendado
+    ? { monto: rung.feeAgendado.monto, moneda: rung.feeAgendado.moneda, label: "por agendado que asistió" }
+    : null;
 
   if (!rung.cotizable) {
     return {
@@ -170,6 +179,7 @@ export function priceForQuote(input: PriceInput): PriceBlock {
       moneda_base: rung.monedaSetup,
       setup: rung.setup,
       recurrente: rung.recurrente,
+      fee_agendado,
       addons,
       addons_total: addonsTotal,
       descuento: null,
@@ -214,6 +224,7 @@ export function priceForQuote(input: PriceInput): PriceBlock {
     moneda_base: rung.monedaSetup,
     setup: rung.setup,
     recurrente: rung.recurrente,
+    fee_agendado,
     addons,
     addons_total: addonsTotal,
     descuento,

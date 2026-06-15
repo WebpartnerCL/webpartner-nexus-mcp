@@ -7,7 +7,8 @@ test("N1 base: bandas de la escalera + cotizable", () => {
   assert.equal(p.cotizable, true);
   assert.equal(p.moneda_base, "CLP");
   assert.deepEqual(p.setup, { min: 500_000, max: 900_000 });
-  assert.equal(p.recurrente.label, "retainer/mes");
+  assert.equal(p.recurrente.label, "base/mes");
+  assert.equal(p.fee_agendado?.monto, 12_000); // performance: fee por agendado-asistió
   assert.equal(p.descuento, null);
   assert.deepEqual(p.total_setup, { min: 500_000, max: 900_000 });
   assert.equal(p.condiciones_pago, "100% al inicio."); // max 900k < 1M

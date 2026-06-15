@@ -72,7 +72,7 @@ ESTRUCTURA (Markdown, en este orden; encabezados ##):
 3. Diagnóstico: situación actual + 2-3 problemas detectados (derivados del dolor, sin inventar) + "Costo de no resolverlo".
 4. Nuestra propuesta de valor: el sistema que trabaja solo, conectado a sus herramientas; "paso a paso, sin riesgo"; 3 beneficios concretos.
 5. Qué incluye: lista del ALCANCE + tabla de addons (si hay) + tabla de inversión (setup, addons, descuento, total) usando las cifras de la FICHA.
-6. Membresía/recurrente (si aplica): explica el valor del recurrente con sus condiciones.
+6. Inversión recurrente: explica el valor del recurrente. Si incluye un fee "por agendado que asistió", enmárcalo como ALINEACIÓN DE INCENTIVOS ("pagas más solo cuando el sistema te llena la agenda con clientes que de verdad asisten") — nunca como un costo extra. Usa el ancla de ahorro del prospecto si la tienes.
 7. Condiciones de pago: usar exactamente "${d.condiciones_pago}" + Boleta de Honorarios SII + vigencia 30 días.
 8. Qué NO incluye: contenido/fotos del cliente, campañas pagadas, licencias de terceros, capacitación presencial, cambios fuera de scope.
 9. Por qué WebPartner + Próximos pasos (revisar 48h → reunión de cierre → firma → kickoff) + Contacto (Mauricio Allendes, WhatsApp +56 9 8586 5420, webpartner33@gmail.com, webpartners.cl).

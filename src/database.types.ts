@@ -175,6 +175,8 @@ export type Database = {
       }
       leads_central: {
         Row: {
+          booking_show: boolean | null
+          cal_event_at: string | null
           cal_event_id: string | null
           cliente_id: string
           created_at: string
@@ -191,6 +193,8 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          booking_show?: boolean | null
+          cal_event_at?: string | null
           cal_event_id?: string | null
           cliente_id: string
           created_at?: string
@@ -207,6 +211,8 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          booking_show?: boolean | null
+          cal_event_at?: string | null
           cal_event_id?: string | null
           cliente_id?: string
           created_at?: string

@@ -39,7 +39,11 @@ export function fichaFromPrecio(p: PriceBlock): Ficha {
   return {
     peldano_nombre: `${p.peldano} ${p.nombre}`,
     setup_texto: fmtBanda(p.setup, p.moneda_base),
-    recurrente_texto: `${fmtBanda(p.recurrente, p.recurrente.moneda)} ${p.recurrente.label}`,
+    recurrente_texto:
+      `${fmtBanda(p.recurrente, p.recurrente.moneda)} ${p.recurrente.label}` +
+      (p.fee_agendado
+        ? ` + ${p.fee_agendado.moneda === "USD" ? "USD " : "CLP $"}${n(p.fee_agendado.monto)} ${p.fee_agendado.label}`
+        : ""),
     addons_texto: p.addons.length
       ? p.addons.map((a) => `${a.nombre} (${fmtBanda(a, a.moneda)})`).join("; ")
       : "ninguno",

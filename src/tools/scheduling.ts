@@ -46,4 +46,35 @@ const scheduleAppointmentTool: ToolDef = {
   },
 };
 
-export const schedulingTools: ToolDef[] = [scheduleAppointmentTool];
+// ── set_booking_show: registra asistencia a la cita (base del fee de performance) ──
+const setBookingShowTool: ToolDef = {
+  name: "set_booking_show",
+  description:
+    "Registra si un lead ASISTIÓ a su cita (booking_show): true=asistió, false=no-show. Es la base del fee por performance del retainer (solo se cobra el agendado que asistió). Match por id_lead o teléfono.",
+  inputSchema: {
+    type: "object",
+    properties: {
+      ...clienteIdProp,
+      id_lead: { type: "string", description: "Lead (uuid). Alternativa a 'telefono'." },
+      telefono: { type: "string", description: "Teléfono E.164 del lead. Alternativa a 'id_lead'." },
+      asistio: { type: "boolean", description: "true = asistió · false = no-show." },
+    },
+    required: ["asistio"],
+  },
+  resolveCliente: serviceResolve,
+  handler: async (args, ctx) => {
+    const clienteId = ctx.clienteId as string;
+    const asistio = args.asistio === true;
+    const idLead = asString(args.id_lead);
+    const tel = asString(args.telefono);
+    if (!idLead && !tel) throw new Error("set_booking_show: falta 'id_lead' o 'telefono'");
+
+    const base = ctx.db.from("leads_central").update({ booking_show: asistio }).eq("cliente_id", clienteId);
+    const filtered = idLead ? base.eq("id_lead", idLead) : base.eq("telefono_whatsapp", tel as string);
+    const { data, error } = await filtered.select("id_lead, nombre_completo, booking_show").maybeSingle();
+    if (error) throw new Error(`set_booking_show: ${error.message}`);
+    return { ok: true, lead: data };
+  },
+};
+
+export const schedulingTools: ToolDef[] = [scheduleAppointmentTool, setBookingShowTool];
