@@ -75,6 +75,8 @@ export const TOOL_NAMES = [
   // Onboarding pipeline (solo service key)
   "provision_client",
   "verify_client_setup",
+  // Cockpit ejecutivo (read-only, N4)
+  "nexus_health",
 ] as const;
 export type ToolName = (typeof TOOL_NAMES)[number];
 
