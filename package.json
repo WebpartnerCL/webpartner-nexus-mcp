@@ -9,7 +9,7 @@
     "start": "node dist/index.js",
     "dev": "tsx src/index.ts",
     "typecheck": "tsc --noEmit",
-    "test": "node --import tsx --test src/core/semaphore.test.ts src/core/envelope.test.ts src/core/keys.test.ts src/core/quota.test.ts src/core/pricing.test.ts src/core/quote.test.ts src/core/priors.test.ts src/core/followup.test.ts src/core/health.test.ts src/tools/proposal.test.ts src/metering.test.ts src/prompts/prompts.test.ts"
+    "test": "node --import tsx --test src/core/semaphore.test.ts src/core/envelope.test.ts src/core/keys.test.ts src/core/quota.test.ts src/core/pricing.test.ts src/core/quote.test.ts src/core/priors.test.ts src/core/followup.test.ts src/core/health.test.ts src/core/billing.test.ts src/tools/proposal.test.ts src/metering.test.ts src/prompts/prompts.test.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.100.1",

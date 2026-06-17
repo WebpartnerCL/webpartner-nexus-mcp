@@ -309,6 +309,143 @@ export type Database = {
           },
         ]
       }
+      facturas: {
+        Row: {
+          citas_asistidas: number
+          cliente_id: string
+          created_at: string
+          emitida_en: string | null
+          estado: string
+          folio_sii: string | null
+          id: string
+          moneda: string
+          monto_base: number
+          monto_total: number
+          monto_variable: number
+          pagada_en: string | null
+          periodo: string
+          stripe_invoice_id: string | null
+          suscripcion_id: string | null
+          tipo: string | null
+          updated_at: string
+          url: string | null
+        }
+        Insert: {
+          citas_asistidas?: number
+          cliente_id: string
+          created_at?: string
+          emitida_en?: string | null
+          estado?: string
+          folio_sii?: string | null
+          id?: string
+          moneda?: string
+          monto_base?: number
+          monto_total?: number
+          monto_variable?: number
+          pagada_en?: string | null
+          periodo: string
+          stripe_invoice_id?: string | null
+          suscripcion_id?: string | null
+          tipo?: string | null
+          updated_at?: string
+          url?: string | null
+        }
+        Update: {
+          citas_asistidas?: number
+          cliente_id?: string
+          created_at?: string
+          emitida_en?: string | null
+          estado?: string
+          folio_sii?: string | null
+          id?: string
+          moneda?: string
+          monto_base?: number
+          monto_total?: number
+          monto_variable?: number
+          pagada_en?: string | null
+          periodo?: string
+          stripe_invoice_id?: string | null
+          suscripcion_id?: string | null
+          tipo?: string | null
+          updated_at?: string
+          url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "facturas_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: false
+            referencedRelation: "clientes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "facturas_suscripcion_id_fkey"
+            columns: ["suscripcion_id"]
+            isOneToOne: false
+            referencedRelation: "suscripciones"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      suscripciones: {
+        Row: {
+          base_monto: number
+          cancelada_en: string | null
+          cliente_id: string
+          created_at: string
+          estado: string
+          fee_unitario: number
+          id: string
+          inicio: string
+          moneda: string
+          peldano: string
+          proximo_cobro: string | null
+          stripe_customer_id: string | null
+          stripe_subscription_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          base_monto?: number
+          cancelada_en?: string | null
+          cliente_id: string
+          created_at?: string
+          estado?: string
+          fee_unitario?: number
+          id?: string
+          inicio?: string
+          moneda?: string
+          peldano: string
+          proximo_cobro?: string | null
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          base_monto?: number
+          cancelada_en?: string | null
+          cliente_id?: string
+          created_at?: string
+          estado?: string
+          fee_unitario?: number
+          id?: string
+          inicio?: string
+          moneda?: string
+          peldano?: string
+          proximo_cobro?: string | null
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "suscripciones_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: false
+            referencedRelation: "clientes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       quotas: {
         Row: {
           limite_mensual: number

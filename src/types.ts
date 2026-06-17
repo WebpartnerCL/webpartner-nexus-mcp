@@ -77,6 +77,9 @@ export const TOOL_NAMES = [
   "verify_client_setup",
   // Cockpit ejecutivo (read-only, N4)
   "nexus_health",
+  // Cobros & facturación (Back-office MVP, solo service key)
+  "record_subscription",
+  "set_subscription_status",
 ] as const;
 export type ToolName = (typeof TOOL_NAMES)[number];
 
