@@ -23,6 +23,7 @@ import { onboardingTools } from "./tools/onboarding.js";
 import { healthTools } from "./tools/health.js";
 import { billingTools } from "./tools/billing.js";
 import { adminTools } from "./tools/admin.js";
+import { reportTools } from "./tools/report.js";
 
 export const ALL_TOOLS: ToolDef[] = [
   ...leadTools,
@@ -38,6 +39,7 @@ export const ALL_TOOLS: ToolDef[] = [
   ...healthTools,
   ...billingTools,
   ...adminTools,
+  ...reportTools,
 ];
 
 const TOOL_BY_NAME = new Map<string, ToolDef>(ALL_TOOLS.map((t) => [t.name, t]));

@@ -83,6 +83,8 @@ export const TOOL_NAMES = [
   // Mantenedor / admin de tenants (Back-office MVP, solo service key)
   "list_clients",
   "update_client",
+  // Reportería al cliente (Back-office MVP)
+  "client_report",
 ] as const;
 export type ToolName = (typeof TOOL_NAMES)[number];
 
